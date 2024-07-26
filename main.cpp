@@ -22,7 +22,26 @@ class Room{
 };
 
 void Room::insert(){
+    cout<<"\n\t _____________Room Allotment System_____________\n"<<endl;
+    Node * newNode = new Node;
+    cout<<"Enter Room ID"<<endl;
+    cin>>newNode->id;
+    cout<<"Enter Customer Name"<<endl;
+    cin>>newNode->name;
+    cout<<"Enter Allocated Date"<<endl;
+    cin>>newNode->date;
+    cout<<"Enter Room Type(Single , Double, Twin)"<<endl;
+    cin>>newNode->roomType;
 
+    if(head == NULL){
+        head = newNode;
+    }else{
+        Node * ptr = head;
+        while(ptr->next != NULL) ptr = ptr->next;
+        ptr->next = head;
+    }
+
+    cout<<"\n\n\t\tNew Room Inserted with RoomID " <<newNode->id<<endl;
 }
 void Room::menu(){
     int choice;
