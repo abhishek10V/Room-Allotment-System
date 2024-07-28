@@ -21,6 +21,94 @@ class Room{
       void show(); 
 };
 
+void Room::sort(){
+   if(head == NULL){
+    cout<<"\n\n No data available currently!!!\n";
+    menu();
+   }
+   int count = 0, t_date = 0, t_id = 0;
+   string t_name , t_roomType;
+   Node * ptr = head;
+   while(ptr != NULL){
+    count++;
+    ptr = ptr->next;
+   }
+
+   for(int i=1 ; i<=count; i++){
+    Node * ptr = head;
+    for(int j=1 ; j < count ; j++){
+      if(ptr->id > ptr->next->id){
+         t_id = ptr->id;
+         t_date = ptr->date;
+         t_roomType = ptr->roomType;
+         t_name = ptr->name;
+
+         ptr->id = ptr->next->id;
+         ptr->name = ptr->next->name;
+         ptr->date = ptr->next->date;
+         ptr->roomType = ptr->next->roomType;
+
+         ptr->next->id = t_id;
+         ptr->next->name = t_name;
+         ptr->next->date = t_date;
+         ptr->next->roomType = t_roomType;
+    }
+    ptr = ptr->next;
+   }
+   }
+}
+
+void Room::show(){
+    if(head == NULL) cout<<"\n\n No data to show currently!!!\n";
+
+    Node * ptr = head;
+
+    while(ptr != NULL){
+        cout << "\n\n Room ID : "<<ptr->id<<endl;
+        cout << "\n Customer Name : "<<ptr->name<<endl;
+        cout << "\n Room Allotment date : "<<ptr->date<<endl;
+        cout << "\n Room Type : "<<ptr->roomType<<endl;
+        
+        ptr = ptr->next;
+    }
+}
+
+void Room::del(){
+    cout<<"\n\t _____________Room Allotment System_____________\n"<<endl;
+    int delete_id;
+
+    if(head == NULL){
+       cout<<"\nNo Room available for deleting, please first book a Room!!!"<<endl;
+    }else{
+        cout<<"\nEnter the ID of the Room you want to delete the records for :"<<endl;
+        cin>>delete_id;
+
+        
+            if(head->id == delete_id){
+               
+                 Node * ptr = head;
+                 head = head->next;
+                 delete ptr;
+
+                cout<<"\n\n Deleted Room record Successfully!!!"<<endl;
+            }else{
+                Node * pre = head;
+                Node * ptr = head;
+
+                while(ptr != NULL){
+                    if(ptr->id == delete_id){
+                        pre->next = ptr->next;
+                        delete ptr;
+                        cout<<"\n\n Deleted Room record Successfully!!!"<<endl;
+                        break;
+                    }
+                    pre = ptr;
+                    ptr = ptr->next;
+                }
+            } 
+    }
+}
+
 void Room::update(){
     cout<<"\n\t _____________Room Allotment System_____________\n"<<endl;
     int update_id;
@@ -74,9 +162,8 @@ void Room::search(){
                 cout<<"\n Customer Name : "<<ptr->name<<endl; 
                 cout<<"\n Room Allocated Date : "<<ptr->date<<endl; 
                 cout<<"\n Room Type : "<<ptr->roomType<<endl; 
-            }else{
-                ptr = ptr->next;
             }
+                ptr = ptr->next;
         }
         if(flag == false) cout<<"\n\nNo room available for the entered Room ID\n"<<endl;
         
@@ -105,6 +192,7 @@ void Room::insert(){
 
     cout<<"\n\n\t\tNew Room Inserted with RoomID " <<newNode->id<<endl;
 }
+
 void Room::menu(){
     int choice;
 
@@ -116,7 +204,7 @@ void Room::menu(){
     cout<<"\n\n2. \t\t Search Room \t\t Search room with RoomID"<<endl<<endl;
     cout<<"\n\n3. \t\t Update Room \t\t Update room record"<<endl<<endl;
     cout<<"\n\n4. \t\t Delete Room \t\t Delete room with RoomID"<<endl<<endl;
-    cout<<"\n\n5. \t\t Show Room Records \t\t Show the current available room records"<<endl<<endl;
+    cout<<"\n\n5. \t\t Show Records \t\t Show the current available room records"<<endl<<endl;
     cout<<"\n\n6. \t\t Exit"<<endl<<endl;
 
     cout<<"\n Enter your Choice"<<endl;
@@ -125,23 +213,25 @@ void Room::menu(){
     switch(choice){
         case 1:
         insert();
-        break;
+        menu();
+        
 
         case 2:
         search();
-        break;
+        menu();
 
         case 3:
         update();
-        break;
+        menu();
 
-         case 4:
+        case 4:
         del();
-        break;
+        menu();
 
-         case 5:
+        case 5:
+        sort();
         show();
-        break;
+        menu();
 
         case 6:
         exit(0);
@@ -149,4 +239,10 @@ void Room::menu(){
         default:
         cout<<"INVALID CHOICE"<<endl;
     }
+}
+
+int main(){
+    Room r;
+
+    r.menu();
 }
