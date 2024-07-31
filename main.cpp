@@ -23,6 +23,15 @@ class RoomAllotment
 			z="";
 			r="";
 		}
+		bool checkRoomID(int id){
+            Node * temp = head;
+			while(temp != NULL){
+               if(temp->room_no == id) return false;
+
+			   temp = temp->next;
+			}
+			return true;
+		}
     	void CreateNode()
 	    {
 	    	if(head==NULL)
@@ -31,8 +40,6 @@ class RoomAllotment
 
 				cout<<"  Enter the Room Number/ Room ID: ";
 	    	    cin>>y;
-		        newer->room_no=y;
-
 				string f_name = "" , l_name ="";
 	    	    cout<<"  Enter the first name of the Costumer: ";
 		        cin>>f_name;
@@ -61,6 +68,12 @@ class RoomAllotment
 		        Node *newer= new Node;
 	    	    cout<<"  Enter the Room Number/ Room ID: ";
 	    	    cin>>y;
+				if(checkRoomID(y) == true)
+		        newer->room_no=y;
+				else{
+					 cout<<"\n      This room is already alloted, Please book some other room    \n";
+					 Structure();
+				}
 		        newer->room_no=y;
 
 				string f_name = "" , l_name ="";
@@ -104,14 +117,14 @@ class RoomAllotment
 	    	else
 	    	{
 	    		BubbleSort();
-	    		cout<<"\t\t| ROOM ID |\t\t"<<"\t\t| NAME |\t\t"<<"\t\t| Date |\t\t"<<"\t\t| ROOM TYPE |"<<endl<<endl;
+	    		
 	        	while(temp!=NULL)
 	        	{
 	        	    count++;
-					cout<<"\t\t| "<<temp->room_no<<" |\n";
-		        	cout<<"\t\t| "<<temp->name<<" |\n";
-		        	cout<<"\t\t| "<<temp->date<<" |\n";
-					cout<<"\t\t| "<<temp->room_type<<" |\n";
+					cout<<"ROOM ID: "<<temp->room_no<<endl;
+		        	cout<<"CUSTOMER NAME: "<<temp->name<<endl;
+		        	cout<<"ALLOTED DATE: "<<temp->date<<endl;
+					cout<<"ROOM TYPE: "<<temp->room_type<<endl<<endl;
     		    	temp=temp->next;		
 	        	}
 	        	cout<<"\n\n\t\tTotal rooms alloted: "<<count<<endl<<endl;
@@ -122,38 +135,6 @@ class RoomAllotment
     		bool check=false;
 	    	Node *temp=head;
 	    	cout<<"***********"<<endl;
-	    	cout<<"  Press 1 if you want to Search By Name."<<endl;
-	    	cout<<"  Press 2 if you want to Search By Room ID."<<endl;
-	    	int command;
-	    	cout<<"  Enter the Command: ";
-	    	cin>>command;
-	  
-	    	if(command==1 && temp!=NULL)
-	    	{
-	    		cout<<"  Enter the Name to Search: ";
-	    		cin>>x;
-		    	while(temp!=NULL)
-		    	{
-		        	if(temp->name==x)
-		        	{
-		        		cout<<"***********"<<endl;
-						cout<<"  Room ID: "<<temp->room_no<<endl;
-		        		cout<<"  Name: "<<temp->name<<endl;
-		        		cout<<"  Date:"<<temp->date<<endl;
-						cout<<"  Room Type:"<<temp->room_type<<endl;
-		        		cout<<"***********"<<endl;
-		        		check=true;
-		        		break;
-		        	}
-		        	temp=temp->next;
-	        	}
-	        	if(check==false)
-	        	{
-	        		cout<<"  Name Not Found"<<endl;
-				}
-	    	}
-	    	else if(command==2)
-	    	{
 	    		cout<<"  Enter the Room ID to Search: ";
 	    		cin>>y;
 				
@@ -176,7 +157,7 @@ class RoomAllotment
 				{
 					cout<<"  Room ID Not Found"<<endl;	
 				}	
-	    	}
+	    	
 	    }
 	    void DeleteAllRecords()
 	    {
@@ -206,75 +187,6 @@ class RoomAllotment
     		
 	    	Node *temp=head;
 	    	cout<<"***********"<<endl;
-	    	cout<<"  Press 1 if you want to Search By name"<<endl;
-	    	cout<<"  Press 2 if you want to Search By Room ID"<<endl;
-	    	int command;
-	    	cout<<"  Enter the Command: ";
-	    	cin>>command;
-	  
-	    	if(command==1)
-	    	{
-	    		bool Dcheck=false;
-	    		cout<<"  Enter the Name to Delete: ";
-	    		cin>>x;
-	    		while(temp!=NULL)
-	    		{
-	    	    	if(temp->name==x)
-		        	{
-		        		cout<<"***********"<<endl;
-		        		cout<<"  Room ID: "<<temp->room_no<<endl;
-		        		cout<<"  Name: "<<temp->name<<endl;
-		        		cout<<"  Date:"<<temp->date<<endl;
-						cout<<"  Room Type:"<<temp->room_type<<endl;
-		        		cout<<"***********"<<endl;
-		        		Dcheck=true;
-		        		break;
-		        	}
-			        temp=temp->next;
-	        	}
-	        	if(Dcheck==true)
-	        	{
-	            	int command;
-	            	cout<<"  Press 1 to Delete the Record: ";
-	            	cin>>command;
-	            	if(command==1 & temp==head)
-	            	{
-	            		Node *temp1;
-	            		temp1=temp;
-	            		temp=temp->next;
-	            		delete temp1;
-	        		
-	            		temp->prev=NULL;
-	            		head=temp;
-	            		cout<<"  Record Deleted Successfully"<<endl;
-			    	}
-			    	else if(command==1 & temp->next==NULL)
-			    	{
-			    		temp->prev->next=NULL;
-			    		delete temp;
-			    		cout<<"  Record Deleted Successfully"<<endl;
-			    	}
-			    	else if(command==1)
-			    	{
-			    		Node *temp1;
-			    		temp1=temp;
-			    		temp->prev->next=temp1->next;
-			    		temp->next->prev=temp1->prev;
-			    		delete temp1;
-			    		cout<<"  Record Deleted Successfully"<<endl;	
-			    	}
-			    	else
-			    	{
-			    		cout<<"  You Enter Wrong Command ... Try Again"<<endl;
-		    		}
-	            }
-	            else if(Dcheck==false)
-				{
-					cout<<"  Record of This Name Not Found."<<endl;
-			    }  
-	    	}
-	    	else if(command==2)
-	    	{
 	    		bool Dcheck=false;
 	    		cout<<"  Enter the Room ID to Delete: ";
 	    		cin>>y;
@@ -333,11 +245,7 @@ class RoomAllotment
 				{
 					cout<<"  Record with this Room ID Not Found."<<endl;
 				}
-	    	}
-	    	else
-	    	{
-	    		cout<<"  You enter wrong Command"<<endl;
-			}
+	    	
 	    }
 	    void BubbleSort()
         {
@@ -383,64 +291,6 @@ class RoomAllotment
     	{
 	    	Node *temp=head;
 	    	cout<<"***********"<<endl;
-	    	cout<<"  Press 1 if you want to Search By Name"<<endl;
-	    	cout<<"  Press 2 if you want to Search By Room ID"<<endl;
-	    	int Ecommand;
-	    	cout<<"  Enter the Command: ";
-	    	cin>>Ecommand;
-	  
-	    	if(Ecommand==1)
-	    	{
-	    		bool Echeck=false;
-	    		cout<<"  Enter the Name to Edit: ";
-	    		cin>>x;
-	    		while(temp!=NULL)
-	    		{
-	    	    	if(temp->name==x)
-		        	{
-		        		cout<<"***********"<<endl;
-		        		cout<<"  Room ID: "<<temp->room_no<<endl;
-		        		cout<<"  Name: "<<temp->name<<endl;
-		        		cout<<"  Date:"<<temp->date<<endl;
-						cout<<"  Room Type:"<<temp->room_type<<endl;
-		        		cout<<"***********"<<endl;
-		        		Echeck=true;
-		        		break;
-		        	}
-			        temp=temp->next;
-	        	}				
-	        	if(Echeck==true)
-	        	{
-	            	int command;
-	        	    cout<<"  Press 1 to Edit the Record: ";
-	            	cin>>command;
-	        	    if(command==1)
-	        	    {
-	        		    cout<<"  Enter New Name: ";
-    	        		cin>>x;
-	            		cout<<"  Enter current date of allotment: ";
-	            		cin>>z;
-						cout<<"  Enter new Room Type alloted: ";
-	            		cin>>r;
-	        		
-	            		temp->name=x;
-	        	    	temp->date = z;
-						temp->room_type = r;
-	        		
-	        		    cout<<"  Record Edited Successfully"<<endl;
-			    	}
-			    	else
-			    	{
-					    cout<<"  You Enter Wrong Command ... Try Again"<<endl;
-	    	        }
-	    	    }
-	    	    else if(Echeck==false)
-	    	    {
-	    	    	cout<<"  Record Not Found"<<endl;
-				}
-	        }
-	    	else if(Ecommand==2)
-	    	{
 	    		bool Echeck=false;
 	    		cout<<"  Enter the Room ID to Edit: ";
 	    		cin>>y;
@@ -462,12 +312,18 @@ class RoomAllotment
 	        	if(Echeck==true)
 	        	{
 	            	int command;
+					string f_name = "" , l_name = "";
 	        	    cout<<"  Press 1 to Edit the Record: ";
 	            	cin>>command;
 	        	    if(command==1)
 	        	    {   
-						cout<<"  Enter New Name: ";
-    	        		cin>>x;
+						cout<<"  Enter New First Name: ";
+    	        		cin>>f_name;
+						cout<<"  Enter New Last Name: ";
+    	        		cin>>l_name;
+
+						x = f_name + " " + l_name;
+
 	            		cout<<"  Enter current date of allotment: ";
 	            		cin>>z;
 						cout<<"  Enter new Room Type alloted: ";
@@ -488,11 +344,6 @@ class RoomAllotment
 	        	{
 	        	    cout<<"  There is No Record with this Room ID."<<endl;
 	            }
-	        }
-	        else
-			{
-			    cout<<"  You Enter Wrong Command ... Try Again"<<endl;
-			}
 	    }
 	
     	
@@ -670,12 +521,9 @@ int main()
 {   
     RoomAllotment room;
     room.reopenroom();
-	string n;
-	cout<<"  What is Your Name: ";
-	cin>>n;
-	
+
     cout<<"***********"<<endl;
-	cout<<"  "<<n<<"\n\n  \tWELCOME TO ROOM ALLOTMENT SYSTEM\t      \n\n"<<endl;
+	cout<<"  "<<"\n\n  \tWELCOME TO ROOM ALLOTMENT SYSTEM\t      \n\n"<<endl;
 	cout<<"***********\n\n"<<endl;
 	room.Structure();
 	return 0;
